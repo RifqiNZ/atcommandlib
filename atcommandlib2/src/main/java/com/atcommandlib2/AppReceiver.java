@@ -1,7 +1,6 @@
 package com.atcommandlib2;
 
 import android.app.AlarmManager;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -66,7 +65,7 @@ public class AppReceiver extends BroadcastReceiver {
 ////        nabnab();
 //
 //        }
-        sendData sd =new sendData();
+        SendData sd =new SendData();
         sd.start();
 //        Log.d("dataMainactivitywoi...","yeyyeeyeyey");
 ////Buat notification
