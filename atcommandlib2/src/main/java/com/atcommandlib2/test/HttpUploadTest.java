@@ -13,7 +13,7 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 
-import static com.example.atcommandlibrary.test.HttpUploadTest.uploadedKByte;
+//import static com.atcommandlib2.test.HttpUploadTest.uploadedKByte;
 
 /**
  * @author erdigurbuz

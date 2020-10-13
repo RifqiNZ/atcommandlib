@@ -33,7 +33,7 @@ import okhttp3.Response;
 public class SendData{
     //InitTime
 
-    
+
     private PendingIntent pendingIntent;
     private static final int ALARM_REQUEST_CODE = 134;
     private int interval_seconds = 3;
