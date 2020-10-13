@@ -30,7 +30,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
-public class SendData extends Thread{
+public class SendData {
     //InitTime
     private PendingIntent pendingIntent;
     private static final int ALARM_REQUEST_CODE = 134;
