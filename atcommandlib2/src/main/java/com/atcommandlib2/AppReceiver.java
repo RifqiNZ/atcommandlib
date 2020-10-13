@@ -67,7 +67,8 @@ public class AppReceiver extends BroadcastReceiver {
 //        }
         SendData sd =new SendData();
         sd.run();
-        
+
+
 //        Log.d("dataMainactivitywoi...","yeyyeeyeyey");
 ////Buat notification
 //        NotificationCompat.Builder alamNotificationBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
