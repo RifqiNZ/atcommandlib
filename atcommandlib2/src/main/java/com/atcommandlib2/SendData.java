@@ -30,11 +30,11 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 interface command {
-public void time (Context context);
+void time (Context context);
 
 }
 
-public class SendData implements command{
+public class SendData extends Thread implements command {
     //InitTime
 
 
@@ -64,6 +64,7 @@ public class SendData implements command{
 
     public void run(){
         tempBlackList = new HashSet<>();
+        Log.d("Data Running___","OKTIMErun");
 
         //startHttpHosthandler
         getSpeedTestHostsHandler = new GetSpeedTestHostsHandler();
