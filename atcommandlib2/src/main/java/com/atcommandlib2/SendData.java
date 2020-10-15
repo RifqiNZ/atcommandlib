@@ -46,7 +46,8 @@ public class SendData{
     static int lastPosition = 0;
     GetSpeedTestHostsHandler getSpeedTestHostsHandler = null;
     HashSet<String> tempBlackList;
-    public void time (Context context){
+
+    public SendData (Context context){
         Intent alarmIntent = new Intent(context, com.atcommandlib2.AppReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(context, ALARM_REQUEST_CODE, alarmIntent, 0);
         Calendar cal = Calendar.getInstance();
@@ -54,7 +55,7 @@ public class SendData{
         cal.set(Calendar.MINUTE,30);
         AlarmManager alarmManager=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
-         }
+    }
     public void run(){
         tempBlackList = new HashSet<>();
 
