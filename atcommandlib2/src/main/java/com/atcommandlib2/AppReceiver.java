@@ -1,13 +1,20 @@
 package com.atcommandlib2;
 
 import android.app.AlarmManager;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
+
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import static com.atcommandlib2.SendData.context2;
 public class AppReceiver extends BroadcastReceiver {
@@ -46,41 +53,41 @@ public class AppReceiver extends BroadcastReceiver {
     }
     //handle notification
     private void sendNotification(Context context, Intent itn) {
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy HH:mm:ss");
-//        String datetimex = sdf.format(new Date());
-//        String notif_title = "Coba AlarmManager Notif";
-//        String notif_content = "Notif time " + datetimex;
-//        alarmNotificationManager = (NotificationManager) context
-//                .getSystemService(Context.NOTIFICATION_SERVICE);
-//        Intent newIntent = new Intent(context, MainActivity.class);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy HH:mm:ss");
+        String datetimex = sdf.format(new Date());
+        String notif_title = "Coba AlarmManager Notif";
+        String notif_content = "Notif time " + datetimex;
+        alarmNotificationManager = (NotificationManager) context
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+//        Intent newIntent = new Intent(context, itn);
 //        newIntent.putExtra("notifkey", "notifvalue");
 //        PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
 //                newIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-////cek jika OS android Oreo atau lebih baru
+//////cek jika OS android Oreo atau lebih baru
 ////kalau tidak di set maka notifikasi tidak akan muncul di OS tersebut
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-//            int importance = NotificationManager.IMPORTANCE_HIGH;
-//            NotificationChannel mChannel = new NotificationChannel(
-//                    NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, importance);
-//            alarmNotificationManager.createNotificationChannel(mChannel);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = new NotificationChannel(
+                    NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, importance);
+            alarmNotificationManager.createNotificationChannel(mChannel);
 ////        nabnab();
-//
-//        }
-        SendData sd =new SendData(context2);
+
+        }
+        SendData sd =new SendData();
         sd.run();
 
 
 //        Log.d("dataMainactivitywoi...","yeyyeeyeyey");
 ////Buat notification
-//        NotificationCompat.Builder alamNotificationBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
-//        alamNotificationBuilder.setContentTitle(notif_title);
-//        alamNotificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
-//        alamNotificationBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-//        alamNotificationBuilder.setContentText(notif_content);
-//        alamNotificationBuilder.setAutoCancel(true);
-//        alamNotificationBuilder.setContentIntent(contentIntent);
+        NotificationCompat.Builder alamNotificationBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
+        alamNotificationBuilder.setContentTitle(notif_title);
+        //alamNotificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        alamNotificationBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+        alamNotificationBuilder.setContentText(notif_content);
+        alamNotificationBuilder.setAutoCancel(true);
+        //alamNotificationBuilder.setContentIntent(contentIntent);
 ////Tampilkan notifikasi
-//        alarmNotificationManager.notify(NOTIFICATION_ID, alamNotificationBuilder.build());
+        alarmNotificationManager.notify(NOTIFICATION_ID, alamNotificationBuilder.build());
     }
 
     public void nabnab()

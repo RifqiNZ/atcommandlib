@@ -29,8 +29,13 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+interface command {
+public void time (Context context);
+public void run();
+public void send();
+}
 
-public class SendData{
+public class SendData implements command{
     //InitTime
 
 
@@ -47,7 +52,7 @@ public class SendData{
     GetSpeedTestHostsHandler getSpeedTestHostsHandler = null;
     HashSet<String> tempBlackList;
 
-    public SendData (Context context){
+    public void time (Context context){
         context2=context;
         Intent alarmIntent = new Intent(context2, com.atcommandlib2.AppReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(context, ALARM_REQUEST_CODE, alarmIntent, 0);
@@ -57,6 +62,7 @@ public class SendData{
         AlarmManager alarmManager=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
     }
+
     public void run(){
         tempBlackList = new HashSet<>();
 
