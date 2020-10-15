@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.util.Log;
 import java.util.Calendar;
 import java.util.HashSet;
-
+import static com.atcommandlib2.SendData.context2;
 public class AppReceiver extends BroadcastReceiver {
     private PendingIntent pendingIntent;
     private static final int ALARM_REQUEST_CODE = 134;
@@ -21,6 +21,7 @@ public class AppReceiver extends BroadcastReceiver {
     private int NOTIFICATION_ID = 1;
     GetSpeedTestHostsHandler getSpeedTestHostsHandler = null;
     HashSet<String> tempBlackList;
+
     @Override
     public void onReceive(Context context, Intent intent) {
         Intent alarmIntent = new Intent(context, AppReceiver.class);
@@ -65,7 +66,7 @@ public class AppReceiver extends BroadcastReceiver {
 ////        nabnab();
 //
 //        }
-        SendData sd =new SendData();
+        SendData sd =new SendData(context2);
         sd.run();
 
 

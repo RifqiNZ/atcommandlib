@@ -37,7 +37,7 @@ public class SendData{
     private PendingIntent pendingIntent;
     private static final int ALARM_REQUEST_CODE = 134;
     private int interval_seconds = 3;
-
+    public static Context context2;
     //
     String ping, jitter,download, upload, longitudePhone,latitudePhone,nameIsp,ip,hostLocation;
 
@@ -48,7 +48,8 @@ public class SendData{
     HashSet<String> tempBlackList;
 
     public SendData (Context context){
-        Intent alarmIntent = new Intent(context, com.atcommandlib2.AppReceiver.class);
+        context2=context;
+        Intent alarmIntent = new Intent(context2, com.atcommandlib2.AppReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(context, ALARM_REQUEST_CODE, alarmIntent, 0);
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 15);
