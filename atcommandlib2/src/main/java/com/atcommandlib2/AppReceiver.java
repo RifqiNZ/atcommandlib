@@ -72,7 +72,7 @@ public class AppReceiver extends BroadcastReceiver {
 
         }
         SendData sd=new SendData();
-        sd.start();
+        sd.run();
         Log.d("Data Running___","OK");
 
 

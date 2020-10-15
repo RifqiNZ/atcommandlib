@@ -31,10 +31,10 @@ import okhttp3.Response;
 
 interface command {
 void time (Context context);
-
+void run();
 }
 
-public class SendData extends Thread implements command {
+public class SendData implements command {
     //InitTime
 
 
