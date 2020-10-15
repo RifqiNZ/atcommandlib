@@ -31,8 +31,7 @@ import okhttp3.Response;
 
 interface command {
 public void time (Context context);
-public void run();
-public void send();
+
 }
 
 public class SendData implements command{
@@ -53,12 +52,12 @@ public class SendData implements command{
     HashSet<String> tempBlackList;
 
     public void time (Context context){
-        context2=context;
-        Intent alarmIntent = new Intent(context2, com.atcommandlib2.AppReceiver.class);
+        Intent alarmIntent = new Intent(context, com.atcommandlib2.AppReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(context, ALARM_REQUEST_CODE, alarmIntent, 0);
         Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, 15);
-        cal.set(Calendar.MINUTE,30);
+        cal.set(Calendar.SECOND, 10);
+        Log.d("Data Running___","OKTIME");
+        //cal.set(Calendar.MINUTE,30);
         AlarmManager alarmManager=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
     }

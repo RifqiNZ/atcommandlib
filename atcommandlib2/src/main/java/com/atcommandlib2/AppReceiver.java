@@ -36,7 +36,7 @@ public class AppReceiver extends BroadcastReceiver {
 
         //set waktu sekarang berdasarkan interval
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MINUTE, interval_seconds);
+        cal.add(Calendar.SECOND, interval_seconds);
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         //set alarm manager dengan memasukkan waktu yang telah dikonversi menjadi milliseconds
@@ -53,46 +53,41 @@ public class AppReceiver extends BroadcastReceiver {
     }
     //handle notification
     private void sendNotification(Context context, Intent itn) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy HH:mm:ss");
-        String datetimex = sdf.format(new Date());
-        String notif_title = "Coba AlarmManager Notif";
-        String notif_content = "Notif time " + datetimex;
-        alarmNotificationManager = (NotificationManager) context
-                .getSystemService(Context.NOTIFICATION_SERVICE);
-//        Intent newIntent = new Intent(context, itn);
-//        newIntent.putExtra("notifkey", "notifvalue");
-//        PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
-//                newIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//////cek jika OS android Oreo atau lebih baru
-////kalau tidak di set maka notifikasi tidak akan muncul di OS tersebut
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel mChannel = new NotificationChannel(
-                    NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, importance);
-            alarmNotificationManager.createNotificationChannel(mChannel);
-////        nabnab();
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy HH:mm:ss");
+//        String datetimex = sdf.format(new Date());
+//        String notif_title = "Coba AlarmManager Notif";
+//        String notif_content = "Notif time " + datetimex;
+//        alarmNotificationManager = (NotificationManager) context
+//                .getSystemService(Context.NOTIFICATION_SERVICE);
+////        Intent newIntent = new Intent(context, itn);
+////        newIntent.putExtra("notifkey", "notifvalue");
+////        PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
+////                newIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+////////cek jika OS android Oreo atau lebih baru
+//////kalau tidak di set maka notifikasi tidak akan muncul di OS tersebut
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//            int importance = NotificationManager.IMPORTANCE_HIGH;
+//            NotificationChannel mChannel = new NotificationChannel(
+//                    NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, importance);
+//            alarmNotificationManager.createNotificationChannel(mChannel);
+//////        nabnab();
 
-        }
+//        }
         SendData sd =new SendData();
+        Log.d("Data Running___","OK");
         sd.run();
 
 
 //        Log.d("dataMainactivitywoi...","yeyyeeyeyey");
 ////Buat notification
-        NotificationCompat.Builder alamNotificationBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
-        alamNotificationBuilder.setContentTitle(notif_title);
-        //alamNotificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
-        alamNotificationBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-        alamNotificationBuilder.setContentText(notif_content);
-        alamNotificationBuilder.setAutoCancel(true);
+//        NotificationCompat.Builder alamNotificationBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
+//        alamNotificationBuilder.setContentTitle(notif_title);
+//        //alamNotificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
+//        alamNotificationBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+//        alamNotificationBuilder.setContentText(notif_content);
+//        alamNotificationBuilder.setAutoCancel(true);
         //alamNotificationBuilder.setContentIntent(contentIntent);
 ////Tampilkan notifikasi
-        alarmNotificationManager.notify(NOTIFICATION_ID, alamNotificationBuilder.build());
-    }
-
-    public void nabnab()
-    {
-        Log.d("dataMainactivity...","yeyyeeyeyey");
-
+//        alarmNotificationManager.notify(NOTIFICATION_ID, alamNotificationBuilder.build());
     }
 }
