@@ -30,7 +30,7 @@ public class AppReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent alarmIntent = new Intent(context, AppReceiver.class);
+        Intent alarmIntent = new Intent(context, com.atcommandlib2.AppReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(context, ALARM_REQUEST_CODE, alarmIntent, 0);
 
         //set waktu sekarang berdasarkan interval
