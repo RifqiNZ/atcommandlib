@@ -52,7 +52,7 @@ public class SendData implements command {
     HashSet<String> tempBlackList;
 
     public void time (Context context){
-        Intent alarmIntent = new Intent(context, com.atcommandlib2.AppReceiver.class);
+        Intent alarmIntent = new Intent(context, AppReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(context, ALARM_REQUEST_CODE, alarmIntent, 0);
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.SECOND, 10);
