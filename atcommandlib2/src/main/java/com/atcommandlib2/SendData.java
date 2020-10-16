@@ -31,17 +31,14 @@ import okhttp3.Response;
 
 interface command {
 void time (Context context);
-void run();
 }
 
 public class SendData implements command {
     //InitTime
 
-
     private PendingIntent pendingIntent;
     private static final int ALARM_REQUEST_CODE = 134;
-    private int interval_seconds = 3;
-    public static Context context2;
+    private int setJam = 3;
     //
     String ping, jitter,download, upload, longitudePhone,latitudePhone,nameIsp,ip,hostLocation;
 
@@ -56,7 +53,7 @@ public class SendData implements command {
         pendingIntent = PendingIntent.getBroadcast(context, ALARM_REQUEST_CODE, alarmIntent, 0);
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.SECOND, 10);
-        Log.d("Data Running___","OKTIME");
+//        Log.d("Data Running___","OKTIME");
         //cal.set(Calendar.MINUTE,30);
         AlarmManager alarmManager=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
