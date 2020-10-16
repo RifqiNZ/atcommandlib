@@ -21,7 +21,7 @@ public class AppReceiver extends BroadcastReceiver {
 
         //set waktu sekarang berdasarkan interval
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.SECOND, interval_Hour);
+        cal.add(Calendar.HOUR, interval_Hour);
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         //set alarm manager dengan memasukkan waktu yang telah dikonversi menjadi milliseconds
