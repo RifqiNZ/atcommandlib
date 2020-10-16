@@ -25,8 +25,6 @@ public class AppReceiver extends BroadcastReceiver {
     String NOTIFICATION_CHANNEL_ID = "rasupe_channel_id";
     String NOTIFICATION_CHANNEL_NAME = "rasupe channel";
     private int NOTIFICATION_ID = 1;
-    GetSpeedTestHostsHandler getSpeedTestHostsHandler = null;
-    HashSet<String> tempBlackList;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -51,26 +49,27 @@ public class AppReceiver extends BroadcastReceiver {
        sendNotification(context, intent);
 
     }
+
     //handle notification
     private void sendNotification(Context context, Intent itn) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy HH:mm:ss");
-        String datetimex = sdf.format(new Date());
-        String notif_title = "Coba AlarmManager Notif";
-        String notif_content = "Notif time " + datetimex;
-        alarmNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy HH:mm:ss");
+//        String datetimex = sdf.format(new Date());
+//        String notif_title = "Coba AlarmManager Notif";
+//        String notif_content = "Notif time " + datetimex;
+//        alarmNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 //        Intent newIntent = new Intent(context, itn);
 //        newIntent.putExtra("notifkey", "notifvalue");
 //        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, newIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 ////////cek jika OS android Oreo atau lebih baru
 //////kalau tidak di set maka notifikasi tidak akan muncul di OS tersebut
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel mChannel = new NotificationChannel(
-                    NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, importance);
-            alarmNotificationManager.createNotificationChannel(mChannel);
-//////        nabnab();
-
-        }
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//            int importance = NotificationManager.IMPORTANCE_HIGH;
+//            NotificationChannel mChannel = new NotificationChannel(
+//                    NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, importance);
+//            alarmNotificationManager.createNotificationChannel(mChannel);
+////////        nabnab();
+//
+//        }
         SendData sd=new SendData();
         sd.run();
         Log.d("Data Running___","OK");
@@ -79,14 +78,48 @@ public class AppReceiver extends BroadcastReceiver {
 
         Log.d("dataMainactivitywoi...","yeyyeeyeyey");
 //Buat notification
-        NotificationCompat.Builder alamNotificationBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
-        alamNotificationBuilder.setContentTitle(notif_title);
-        //alamNotificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
-        alamNotificationBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-        alamNotificationBuilder.setContentText(notif_content);
-        alamNotificationBuilder.setAutoCancel(true);
+//        NotificationCompat.Builder alamNotificationBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
+//        alamNotificationBuilder.setContentTitle(notif_title);
+//        //alamNotificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
+//        alamNotificationBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+//        alamNotificationBuilder.setContentText(notif_content);
+//        alamNotificationBuilder.setAutoCancel(true);
 //        alamNotificationBuilder.setContentIntent("fas");
 //Tampilkan notifikasi
-        alarmNotificationManager.notify(NOTIFICATION_ID, alamNotificationBuilder.build());
+//        alarmNotificationManager.notify(NOTIFICATION_ID, alamNotificationBuilder.build());
     }
+    //handle notification
+
+//    private void sendNotification2(Context context, Intent itn) {
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy HH:mm:ss");
+//        String datetimex = sdf.format(new Date());
+//        String notif_title = "Coba AlarmManager Notif";
+//        String notif_content = "Notif time "+datetimex;
+//        alarmNotificationManager = (NotificationManager) context
+//                .getSystemService(Context.NOTIFICATION_SERVICE);
+//        Intent newIntent = new Intent(context,MainActivity.class);
+//        newIntent.putExtra("notifkey", "notifvalue");
+//        PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
+//                newIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//        //cek jika OS android Oreo atau lebih baru
+//        //kalau tidak di set maka notifikasi tidak akan muncul di OS tersebut
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//            int importance = NotificationManager.IMPORTANCE_HIGH;
+//            NotificationChannel mChannel = new NotificationChannel(
+//                    NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, importance);
+//            alarmNotificationManager.createNotificationChannel(mChannel);
+//        }
+//
+//        //Buat notification
+//        NotificationCompat.Builder alamNotificationBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
+//        alamNotificationBuilder.setContentTitle(notif_title);
+//        alamNotificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
+//        alamNotificationBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+//        alamNotificationBuilder.setContentText(notif_content);
+//        alamNotificationBuilder.setAutoCancel(true);
+//        alamNotificationBuilder.setContentIntent(contentIntent);
+//        //Tampilkan notifikasi
+//        alarmNotificationManager.notify(NOTIFICATION_ID, alamNotificationBuilder.build());
+//    }
 }
