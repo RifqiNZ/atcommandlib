@@ -1,11 +1,24 @@
 package com.atcommandlib2;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.telephony.CellInfo;
+import android.telephony.TelephonyManager;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,6 +34,18 @@ import java.util.List;
 import com.atcommandlib2.test.HttpDownloadTest;
 import com.atcommandlib2.test.HttpUploadTest;
 import com.atcommandlib2.test.PingTest;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -33,7 +58,19 @@ interface command {
 void time (Context context);
 }
 
-public class SendData implements command {
+public class SendData extends FragmentActivity implements command, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+    TelephonyManager tm;
+
+    //signal
+    int biarGCounter=0;
+    ArrayList<String> dataFullCell;
+
+    //init Google Client
+    private GoogleApiClient googleApiClient;
+    private final static int REQUEST_CHECK_SETTINGS_GPS = 0x1;
+    private final static int REQUEST_ID_MULTIPLE_PERMISSIONS = 0x2;
+    private Location mylocation;
+
     //InitTime
 
     private PendingIntent pendingIntent;
@@ -47,6 +84,8 @@ public class SendData implements command {
     static int lastPosition = 0;
     GetSpeedTestHostsHandler getSpeedTestHostsHandler = null;
     HashSet<String> tempBlackList;
+    //
+    Context contextDuplicate=null;
 
     public void time (Context context){
         Intent alarmIntent = new Intent(context, AppReceiver.class);
@@ -57,6 +96,10 @@ public class SendData implements command {
         //cal.set(Calendar.MINUTE,30);
         AlarmManager alarmManager=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+
+        //setupGoogleGPSON
+        contextDuplicate=context;
+        setUpGClient(contextDuplicate);
     }
 
     public void run(){
@@ -326,6 +369,209 @@ public class SendData implements command {
         });
 
 
+    }
+    public void dataCellID(){
+
+    }
+    private synchronized void setUpGClient(Context context) {
+        googleApiClient = new GoogleApiClient.Builder(context)
+                .enableAutoManage(this, 0, this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        googleApiClient.connect();
+    }
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        checkPermissions();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        if (biarGCounter==0){
+            LocationManager lm = (LocationManager) getBaseContext().getSystemService(Context.LOCATION_SERVICE);
+            if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+
+                List<CellInfo> cellInfoList = tm.getAllCellInfo();
+                String cellID=String.valueOf(cellInfoList.get(0));
+                String[] dataCell=cellID.split(" ");
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                    String signalStrength= String.valueOf(tm.getSignalStrength());
+                    String[] signalData= signalStrength.split(" ");
+                    //rssi
+                    dataFullCell.add(signalData[1].split("=")[1]);
+                    //rsrp
+                    dataFullCell.add(signalData[2].split("=")[1]);
+                    //rsrq
+                    dataFullCell.add(signalData[3].split("=")[1]);
+                    //rssnr
+                    dataFullCell.add(signalData[4].split("=")[1]);
+                    //cqi
+                    dataFullCell.add(signalData[5].split("=")[1]);
+                    //ta
+                    dataFullCell.add(signalData[6].split("=")[1]);
+                    //levelSignal
+                    dataFullCell.add(signalData[8].split("=")[1]);
+//                        int signalIndex=0;
+//                        for (String sD : signalData){
+//                            signalIndex++;
+//                            Log.d("cellSignalData",sD);
+//                        }
+                }
+
+                //mCi
+                dataFullCell.add(dataCell[4].split("=")[1]);
+                //mPCi
+                dataFullCell.add(dataCell[5].split("=")[1]);
+                //mTac
+                dataFullCell.add(dataCell[6].split("=")[1]);
+                //mearfcn
+                dataFullCell.add(dataCell[7].split("=")[1]);
+                //mbandwidth
+                dataFullCell.add(dataCell[8].split("=")[1]);
+                //mMcc
+                dataFullCell.add(dataCell[9].split("=")[1]);
+                //mMnc
+                dataFullCell.add(dataCell[10].split("=")[1]);
+                //ISP
+                dataFullCell.add(dataCell[11].split("=")[1]);
+//                    int x= 0;
+//                for (String da : data){
+//                    x++;
+//                    Log.d("cellData",da);
+//                    if (x==data.length){
+//                        break;
+//                    }
+//                }
+//                    Intent intent= new Intent(MainActivity.this,sendData.class);
+//                    intent.putExtra("data",dataFullCell);
+//                    startActivity(intent);
+                Log.d("DataCel", String.valueOf(dataFullCell));
+            }
+            biarGCounter++;
+        }
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+    //auto gps
+    private void checkPermissions() {
+        int permissionLocation = ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION);
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        if (permissionLocation != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
+            if (!listPermissionsNeeded.isEmpty()) {
+                ActivityCompat.requestPermissions(this,
+                        listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
+//                List<CellInfo> cellInfoList = tm.getAllCellInfo();
+//                Log.d("cellInfo", String.valueOf(cellInfoList.get(0)));
+            }
+        } else {
+            getMyLocation();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//    if (requestCode== 1){
+//        if (grantResults.length>0 && grantResults[0]== PackageManager.PERMISSION_GRANTED){
+//Toast.makeText(this,"permission grnated",Toast.LENGTH_LONG).show();
+//        }
+//        else{
+//            Toast.makeText(this,"permission denied",Toast.LENGTH_LONG).show();
+//        }
+//    }
+        int permissionLocation = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
+            getMyLocation();
+        }
+    }
+
+    public void getMyLocation() {
+
+        if (googleApiClient != null) {
+            if (googleApiClient.isConnected()) {
+                int permissionLocation = ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_FINE_LOCATION);
+                if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
+                    mylocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+                    LocationRequest locationRequest = new LocationRequest();
+                    locationRequest.setInterval(3000);
+                    locationRequest.setFastestInterval(3000);
+                    locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+                    LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                            .addLocationRequest(locationRequest);
+                    builder.setAlwaysShow(true);
+                    LocationServices.FusedLocationApi
+                            .requestLocationUpdates(googleApiClient, locationRequest, this);
+                    PendingResult<LocationSettingsResult> result =
+                            LocationServices.SettingsApi
+                                    .checkLocationSettings(googleApiClient, builder.build());
+                    result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+
+                        @Override
+                        public void onResult(LocationSettingsResult result) {
+                            final Status status = result.getStatus();
+                            switch (status.getStatusCode()) {
+                                case LocationSettingsStatusCodes.SUCCESS:
+                                    // All location settings are satisfied.
+                                    // You can initialize location requests here.
+                                    int permissionLocation = ContextCompat
+                                            .checkSelfPermission(contextDuplicate,
+                                                    Manifest.permission.ACCESS_FINE_LOCATION);
+                                    if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
+                                        mylocation = LocationServices.FusedLocationApi
+                                                .getLastLocation(googleApiClient);
+
+                                    }
+
+                                    break;
+                                case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                                    // Location settings are not satisfied.
+                                    // But could be fixed by showing the user a dialog.
+                                    try {
+                                        // Show the dialog by calling startResolutionForResult(),
+                                        // and check the result in onActivityResult().
+                                        // Ask to turn on GPS automatically
+                                        status.startResolutionForResult(SendData.this,
+                                                REQUEST_CHECK_SETTINGS_GPS);
+                                    } catch (IntentSender.SendIntentException e) {
+                                        // Ignore the error.
+                                    }
+                                    break;
+                                case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                                    // Location settings are not satisfied.
+                                    // However, we have no way
+                                    // to fix the
+                                    // settings so we won't show the dialog.
+                                    // finish();
+                                    break;
+                            }
+                        }
+                    });
+                }
+            }
+        }
     }
 
 }
