@@ -56,7 +56,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 interface command {
-void time (Context context, Activity contextDuplicate);
+void time (Context context, Activity activity);
 }
 
 public class SendData extends FragmentActivity implements command, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
@@ -86,9 +86,10 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
     GetSpeedTestHostsHandler getSpeedTestHostsHandler = null;
     HashSet<String> tempBlackList;
     //
-    Activity contextDuplicate;
+    Activity publicActivity;
+    Context publicContext;
 
-    public void time (Context context,Activity contextDuplicate){
+    public void time (Context context,Activity activity){
         Intent alarmIntent = new Intent(context, AppReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(context, ALARM_REQUEST_CODE, alarmIntent, 0);
         Calendar cal = Calendar.getInstance();
@@ -97,10 +98,11 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
         //cal.set(Calendar.MINUTE,30);
         AlarmManager alarmManager=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
-
+        publicActivity=activity;
+        publicContext=context;
         //setupGoogleGPSON
 
-        setUpGClient(contextDuplicate);
+        setUpGClient(publicContext,publicActivity);
     }
 
     public void run(){
@@ -374,7 +376,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
     public void dataCellID(){
 
     }
-    private synchronized void setUpGClient(Context context) {
+    private synchronized void setUpGClient(Context context,Activity activity) {
         googleApiClient = new GoogleApiClient.Builder(context)
                 .enableAutoManage(this, 0, this)
                 .addConnectionCallbacks(this)
@@ -403,7 +405,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
         if (biarGCounter==0){
             LocationManager lm = (LocationManager) getBaseContext().getSystemService(Context.LOCATION_SERVICE);
             if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                if (ActivityCompat.checkSelfPermission(contextDuplicate, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(publicContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
 
@@ -474,13 +476,13 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
     }
     //auto gps
     private void checkPermissions() {
-        int permissionLocation = ContextCompat.checkSelfPermission(contextDuplicate,
+        int permissionLocation = ContextCompat.checkSelfPermission(publicContext,
                 android.Manifest.permission.ACCESS_FINE_LOCATION);
         List<String> listPermissionsNeeded = new ArrayList<>();
         if (permissionLocation != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
             if (!listPermissionsNeeded.isEmpty()) {
-                ActivityCompat.requestPermissions(contextDuplicate,
+                ActivityCompat.requestPermissions(publicActivity,
                         listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
 //                List<CellInfo> cellInfoList = tm.getAllCellInfo();
 //                Log.d("cellInfo", String.valueOf(cellInfoList.get(0)));
@@ -501,7 +503,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
 //            Toast.makeText(this,"permission denied",Toast.LENGTH_LONG).show();
 //        }
 //    }
-        int permissionLocation = ContextCompat.checkSelfPermission(contextDuplicate,
+        int permissionLocation = ContextCompat.checkSelfPermission(publicContext,
                 Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
             getMyLocation();
@@ -512,7 +514,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
 
         if (googleApiClient != null) {
             if (googleApiClient.isConnected()) {
-                int permissionLocation = ContextCompat.checkSelfPermission(contextDuplicate,
+                int permissionLocation = ContextCompat.checkSelfPermission(publicContext,
                         Manifest.permission.ACCESS_FINE_LOCATION);
                 if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
                     mylocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
@@ -538,7 +540,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
                                     // All location settings are satisfied.
                                     // You can initialize location requests here.
                                     int permissionLocation = ContextCompat
-                                            .checkSelfPermission(contextDuplicate,
+                                            .checkSelfPermission(publicContext,
                                                     Manifest.permission.ACCESS_FINE_LOCATION);
                                     if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
                                         mylocation = LocationServices.FusedLocationApi
