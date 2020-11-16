@@ -409,7 +409,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
                 if (ActivityCompat.checkSelfPermission(publicContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
-
+                tm = (TelephonyManager) publicContext.getSystemService(Context.TELEPHONY_SERVICE);
                 List<CellInfo> cellInfoList = tm.getAllCellInfo();
                 String cellID=String.valueOf(cellInfoList.get(0));
                 String[] dataCell=cellID.split(" ");
