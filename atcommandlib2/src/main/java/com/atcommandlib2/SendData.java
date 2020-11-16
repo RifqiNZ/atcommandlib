@@ -1,6 +1,7 @@
 package com.atcommandlib2;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -55,7 +56,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 interface command {
-void time (Context context);
+void time (Context context, Activity contextDuplicate);
 }
 
 public class SendData extends FragmentActivity implements command, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
@@ -85,9 +86,9 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
     GetSpeedTestHostsHandler getSpeedTestHostsHandler = null;
     HashSet<String> tempBlackList;
     //
-    Context contextDuplicate=null;
+    Activity contextDuplicate;
 
-    public void time (Context context){
+    public void time (Context context,Activity contextDuplicate){
         Intent alarmIntent = new Intent(context, AppReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(context, ALARM_REQUEST_CODE, alarmIntent, 0);
         Calendar cal = Calendar.getInstance();
@@ -98,7 +99,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
         alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
 
         //setupGoogleGPSON
-        contextDuplicate=context;
+
         setUpGClient(contextDuplicate);
     }
 
@@ -479,7 +480,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
         if (permissionLocation != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
             if (!listPermissionsNeeded.isEmpty()) {
-                ActivityCompat.requestPermissions(this,
+                ActivityCompat.requestPermissions(contextDuplicate,
                         listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
 //                List<CellInfo> cellInfoList = tm.getAllCellInfo();
 //                Log.d("cellInfo", String.valueOf(cellInfoList.get(0)));
