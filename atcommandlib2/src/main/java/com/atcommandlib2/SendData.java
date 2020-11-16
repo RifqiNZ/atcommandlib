@@ -405,7 +405,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
         if (biarGCounter==0){
             LocationManager lm = (LocationManager) publicContext.getSystemService(Context.LOCATION_SERVICE);
             if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                if (ActivityCompat.checkSelfPermission(publicContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
 
