@@ -402,7 +402,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
         if (biarGCounter==0){
             LocationManager lm = (LocationManager) getBaseContext().getSystemService(Context.LOCATION_SERVICE);
             if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(contextDuplicate, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
 
@@ -473,7 +473,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
     }
     //auto gps
     private void checkPermissions() {
-        int permissionLocation = ContextCompat.checkSelfPermission(this,
+        int permissionLocation = ContextCompat.checkSelfPermission(contextDuplicate,
                 android.Manifest.permission.ACCESS_FINE_LOCATION);
         List<String> listPermissionsNeeded = new ArrayList<>();
         if (permissionLocation != PackageManager.PERMISSION_GRANTED) {
@@ -500,7 +500,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
 //            Toast.makeText(this,"permission denied",Toast.LENGTH_LONG).show();
 //        }
 //    }
-        int permissionLocation = ContextCompat.checkSelfPermission(this,
+        int permissionLocation = ContextCompat.checkSelfPermission(contextDuplicate,
                 Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
             getMyLocation();
@@ -511,7 +511,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
 
         if (googleApiClient != null) {
             if (googleApiClient.isConnected()) {
-                int permissionLocation = ContextCompat.checkSelfPermission(this,
+                int permissionLocation = ContextCompat.checkSelfPermission(contextDuplicate,
                         Manifest.permission.ACCESS_FINE_LOCATION);
                 if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
                     mylocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
