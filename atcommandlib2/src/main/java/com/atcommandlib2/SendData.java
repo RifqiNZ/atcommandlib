@@ -412,49 +412,50 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
                 tm = (TelephonyManager) publicContext.getSystemService(Context.TELEPHONY_SERVICE);
                 List<CellInfo> cellInfoList = tm.getAllCellInfo();
                 String cellID=String.valueOf(cellInfoList.get(0));
+                Log.d("CELLLLDA_____", cellID);
                 String[] dataCell=cellID.split(" ");
 
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
-                    String signalStrength= String.valueOf(tm.getSignalStrength());
-                    String[] signalData= signalStrength.split(" ");
-                    //rssi
-                    dataFullCell.add(signalData[1].split("=")[1]);
-                    //rsrp
-                    dataFullCell.add(signalData[2].split("=")[1]);
-                    //rsrq
-                    dataFullCell.add(signalData[3].split("=")[1]);
-                    //rssnr
-                    dataFullCell.add(signalData[4].split("=")[1]);
-                    //cqi
-                    dataFullCell.add(signalData[5].split("=")[1]);
-                    //ta
-                    dataFullCell.add(signalData[6].split("=")[1]);
-                    //levelSignal
-                    dataFullCell.add(signalData[8].split("=")[1]);
-//                        int signalIndex=0;
-//                        for (String sD : signalData){
-//                            signalIndex++;
-//                            Log.d("cellSignalData",sD);
-//                        }
-                }
-
-                //mCi
-                dataFullCell.add(dataCell[4].split("=")[1]);
-                //mPCi
-                dataFullCell.add(dataCell[5].split("=")[1]);
-                //mTac
-                dataFullCell.add(dataCell[6].split("=")[1]);
-                //mearfcn
-                dataFullCell.add(dataCell[7].split("=")[1]);
-                //mbandwidth
-                dataFullCell.add(dataCell[8].split("=")[1]);
-                //mMcc
-                dataFullCell.add(dataCell[9].split("=")[1]);
-                //mMnc
-                dataFullCell.add(dataCell[10].split("=")[1]);
-                //ISP
-                dataFullCell.add(dataCell[11].split("=")[1]);
-//                    int x= 0;
+//                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+//                    String signalStrength= String.valueOf(tm.getSignalStrength());
+//                    String[] signalData= signalStrength.split(" ");
+//                    //rssi
+//                    dataFullCell.add(signalData[1].split("=")[1]);
+//                    //rsrp
+//                    dataFullCell.add(signalData[2].split("=")[1]);
+//                    //rsrq
+//                    dataFullCell.add(signalData[3].split("=")[1]);
+//                    //rssnr
+//                    dataFullCell.add(signalData[4].split("=")[1]);
+//                    //cqi
+//                    dataFullCell.add(signalData[5].split("=")[1]);
+//                    //ta
+//                    dataFullCell.add(signalData[6].split("=")[1]);
+//                    //levelSignal
+//                    dataFullCell.add(signalData[8].split("=")[1]);
+////                        int signalIndex=0;
+////                        for (String sD : signalData){
+////                            signalIndex++;
+////                            Log.d("cellSignalData",sD);
+////                        }
+//                }
+//
+//                //mCi
+//                dataFullCell.add(dataCell[4].split("=")[1]);
+//                //mPCi
+//                dataFullCell.add(dataCell[5].split("=")[1]);
+//                //mTac
+//                dataFullCell.add(dataCell[6].split("=")[1]);
+//                //mearfcn
+//                dataFullCell.add(dataCell[7].split("=")[1]);
+//                //mbandwidth
+//                dataFullCell.add(dataCell[8].split("=")[1]);
+//                //mMcc
+//                dataFullCell.add(dataCell[9].split("=")[1]);
+//                //mMnc
+//                dataFullCell.add(dataCell[10].split("=")[1]);
+//                //ISP
+//                dataFullCell.add(dataCell[11].split("=")[1]);
+////                    int x= 0;
 //                for (String da : data){
 //                    x++;
 //                    Log.d("cellData",da);
