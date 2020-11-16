@@ -556,7 +556,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
                                         // Show the dialog by calling startResolutionForResult(),
                                         // and check the result in onActivityResult().
                                         // Ask to turn on GPS automatically
-                                        status.startResolutionForResult(SendData.this,
+                                        status.startResolutionForResult(publicActivity,
                                                 REQUEST_CHECK_SETTINGS_GPS);
                                     } catch (IntentSender.SendIntentException e) {
                                         // Ignore the error.
