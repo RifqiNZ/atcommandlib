@@ -64,7 +64,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
 
     //signal
     int biarGCounter=0;
-    ArrayList<String> dataFullCell;
+    ArrayList<String> dataFullCell=new ArrayList<>();
 
     //init Google Client
     private GoogleApiClient googleApiClient;
@@ -419,43 +419,43 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
                     String signalStrength= String.valueOf(tm.getSignalStrength());
                     String[] signalData= signalStrength.split(" ");
                     Log.d("CELLLLDA_____", signalStrength);
-//                    //rssi
-//                    dataFullCell.add(signalData[1].split("=")[1]);
-//                    //rsrp
-//                    dataFullCell.add(signalData[2].split("=")[1]);
-//                    //rsrq
-//                    dataFullCell.add(signalData[3].split("=")[1]);
-//                    //rssnr
-//                    dataFullCell.add(signalData[4].split("=")[1]);
-//                    //cqi
-//                    dataFullCell.add(signalData[5].split("=")[1]);
-//                    //ta
-//                    dataFullCell.add(signalData[6].split("=")[1]);
-//                    //levelSignal
-//                    dataFullCell.add(signalData[8].split("=")[1]);
-////                        int signalIndex=0;
-////                        for (String sD : signalData){
-////                            signalIndex++;
-////                            Log.d("cellSignalData",sD);
-////                        }
+                    //rssi
+                    dataFullCell.add(signalData[1].split("=")[1]);
+                    //rsrp
+                    dataFullCell.add(signalData[2].split("=")[1]);
+                    //rsrq
+                    dataFullCell.add(signalData[3].split("=")[1]);
+                    //rssnr
+                    dataFullCell.add(signalData[4].split("=")[1]);
+                    //cqi
+                    dataFullCell.add(signalData[5].split("=")[1]);
+                    //ta
+                    dataFullCell.add(signalData[6].split("=")[1]);
+                    //levelSignal
+                    dataFullCell.add(signalData[8].split("=")[1]);
+//                        int signalIndex=0;
+//                        for (String sD : signalData){
+//                            signalIndex++;
+//                            Log.d("cellSignalData",sD);
+//                        }
                 }
-//
-//                //mCi
-//                dataFullCell.add(dataCell[4].split("=")[1]);
-//                //mPCi
-//                dataFullCell.add(dataCell[5].split("=")[1]);
-//                //mTac
-//                dataFullCell.add(dataCell[6].split("=")[1]);
-//                //mearfcn
-//                dataFullCell.add(dataCell[7].split("=")[1]);
-//                //mbandwidth
-//                dataFullCell.add(dataCell[8].split("=")[1]);
-//                //mMcc
-//                dataFullCell.add(dataCell[9].split("=")[1]);
-//                //mMnc
-//                dataFullCell.add(dataCell[10].split("=")[1]);
-//                //ISP
-//                dataFullCell.add(dataCell[11].split("=")[1]);
+
+                //mCi
+                dataFullCell.add(dataCell[4].split("=")[1]);
+                //mPCi
+                dataFullCell.add(dataCell[5].split("=")[1]);
+                //mTac
+                dataFullCell.add(dataCell[6].split("=")[1]);
+                //mearfcn
+                dataFullCell.add(dataCell[7].split("=")[1]);
+                //mbandwidth
+                dataFullCell.add(dataCell[8].split("=")[1]);
+                //mMcc
+                dataFullCell.add(dataCell[9].split("=")[1]);
+                //mMnc
+                dataFullCell.add(dataCell[10].split("=")[1]);
+                //ISP
+                dataFullCell.add(dataCell[11].split("=")[1]);
 ////                    int x= 0;
 //                for (String da : data){
 //                    x++;
