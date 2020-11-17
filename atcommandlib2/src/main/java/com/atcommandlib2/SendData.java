@@ -102,7 +102,6 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
         publicContext=context;
         //setupGoogleGPSON
 
-        setUpGClient(publicContext);
     }
 
     public void run(){
@@ -388,8 +387,11 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
         int permissionLocation = ContextCompat.checkSelfPermission(publicContext,
                 Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
+            setUpGClient(publicContext);
             getMyLocation();
         }
+
+
     }
 
     private synchronized void setUpGClient(Context context) {
