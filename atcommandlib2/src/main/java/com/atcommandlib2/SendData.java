@@ -102,7 +102,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
         publicContext=context;
         //setupGoogleGPSON
 
-        setUpGClient(publicContext,publicActivity);
+        setUpGClient(publicContext);
     }
 
     public void run(){
@@ -392,8 +392,8 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
         }
     }
 
-    private synchronized void setUpGClient(Context context,Activity activity) {
-        googleApiClient = new GoogleApiClient.Builder(this)
+    private synchronized void setUpGClient(Context context) {
+        googleApiClient = new GoogleApiClient.Builder(context)
                 .enableAutoManage(this, 0, this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
