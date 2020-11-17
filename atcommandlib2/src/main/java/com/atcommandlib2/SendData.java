@@ -602,7 +602,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
         String[] nameList={"Rssi","Rsrp","Rsrq","Rssnr","Cqi","Ta","LevelSignal","mCi","mPci","mTac","mArfcn","mBandwith","mMcc","mMnc","IspSignal"};
 
         try {
-            for (int i=0;i<=nameList.length;i++ ){
+            for (int i=0;i<nameList.length;i++ ){
             postdata.put(nameList[i], arrayList.get(i));
             }
         } catch (JSONException e) {
