@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -485,6 +486,12 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
 //                    Intent intent= new Intent(MainActivity.this,sendData.class);
 //                    intent.putExtra("data",dataFullCell);
 //                    startActivity(intent);
+                if (dataFullCell!=null){
+                    if (dataFullCell.size()==14){
+                    sendCellID(dataFullCell);
+                    }
+                }
+
                 Log.d("DataCel", String.valueOf(dataFullCell));
             }
             biarGCounter++;
@@ -579,6 +586,53 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
                 }
             }
         }
+    }
+    public void sendCellID(ArrayList arrayList) {
+        MediaType MEDIA_TYPE = MediaType.parse("application/json");
+        String url = "http://34.87.107.144:8080/api/v1/MvjROrD0kg73XoC8CMLP/telemetry";
+
+        OkHttpClient client = new OkHttpClient();
+
+        JSONObject postdata = new JSONObject();
+
+        String[] nameList={"Rssi","Rsrp","Rsrp","Rssnr","Cqi","Ta","LevelSignal","mCi","mPci","mArfcn","mBandwith","mMcc","mMnc","IspSignal"};
+
+        try {
+            for (int i=0;i<=nameList.length;i++ ){
+            postdata.put(nameList[i], arrayList.get(i));
+            }
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        RequestBody body = RequestBody.create(MEDIA_TYPE, postdata.toString());
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .header("Accept", "application/json")
+                .header("Content-Type", "application/json")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                String mMessage = e.getMessage().toString();
+                Log.d("failure Response___", mMessage);
+                //call.cancel();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                String mMessage = response.body().string();
+                Log.d("failure_____", mMessage);
+
+            }
+        });
+
+
     }
 
 }
