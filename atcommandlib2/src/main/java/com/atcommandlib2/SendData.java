@@ -415,9 +415,10 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
                 Log.d("CELLLLDA_____", cellID);
                 String[] dataCell=cellID.split(" ");
 
-//                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
-//                    String signalStrength= String.valueOf(tm.getSignalStrength());
-//                    String[] signalData= signalStrength.split(" ");
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                    String signalStrength= String.valueOf(tm.getSignalStrength());
+                    String[] signalData= signalStrength.split(" ");
+                    Log.d("CELLLLDA_____", signalStrength);
 //                    //rssi
 //                    dataFullCell.add(signalData[1].split("=")[1]);
 //                    //rsrp
@@ -437,7 +438,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
 ////                            signalIndex++;
 ////                            Log.d("cellSignalData",sD);
 ////                        }
-//                }
+                }
 //
 //                //mCi
 //                dataFullCell.add(dataCell[4].split("=")[1]);
