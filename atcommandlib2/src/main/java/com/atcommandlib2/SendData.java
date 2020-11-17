@@ -373,11 +373,27 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
 
 
     }
-    public void dataCellID(){
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//    if (requestCode== 1){
+//        if (grantResults.length>0 && grantResults[0]== PackageManager.PERMISSION_GRANTED){
+//Toast.makeText(this,"permission grnated",Toast.LENGTH_LONG).show();
+//        }
+//        else{
+//            Toast.makeText(this,"permission denied",Toast.LENGTH_LONG).show();
+//        }
+//    }
+        int permissionLocation = ContextCompat.checkSelfPermission(publicContext,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
+            getMyLocation();
+        }
     }
+
     private synchronized void setUpGClient(Context context,Activity activity) {
-        googleApiClient = new GoogleApiClient.Builder(context)
+        googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, 0, this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -491,24 +507,6 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
 //                Log.d("cellInfo", String.valueOf(cellInfoList.get(0)));
             }
         } else {
-            getMyLocation();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//    if (requestCode== 1){
-//        if (grantResults.length>0 && grantResults[0]== PackageManager.PERMISSION_GRANTED){
-//Toast.makeText(this,"permission grnated",Toast.LENGTH_LONG).show();
-//        }
-//        else{
-//            Toast.makeText(this,"permission denied",Toast.LENGTH_LONG).show();
-//        }
-//    }
-        int permissionLocation = ContextCompat.checkSelfPermission(publicContext,
-                Manifest.permission.ACCESS_FINE_LOCATION);
-        if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
             getMyLocation();
         }
     }
