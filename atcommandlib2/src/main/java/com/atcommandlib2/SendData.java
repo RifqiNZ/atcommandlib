@@ -487,8 +487,11 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
 //                    intent.putExtra("data",dataFullCell);
 //                    startActivity(intent);
                 if (dataFullCell!=null){
+                    Log.d("dataLength", String.valueOf(dataFullCell.size()));
                     if (dataFullCell.size()==14){
-                    sendCellID(dataFullCell);
+                        Log.d("dataLength", "Data mau dikirim");
+                        sendCellID(dataFullCell);
+
                     }
                 }
 
@@ -588,6 +591,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
         }
     }
     public void sendCellID(ArrayList arrayList) {
+        Log.d("dataLength", "send Cell id");
         MediaType MEDIA_TYPE = MediaType.parse("application/json");
         String url = "http://34.87.107.144:8080/api/v1/MvjROrD0kg73XoC8CMLP/telemetry";
 
