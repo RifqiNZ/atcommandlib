@@ -599,7 +599,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
 
         JSONObject postdata = new JSONObject();
 
-        String[] nameList={"Rssi","Rsrp","Rsrp","Rssnr","Cqi","Ta","LevelSignal","mCi","mPci","mArfcn","mBandwith","mMcc","mMnc","IspSignal"};
+        String[] nameList={"Rssi","Rsrp","Rsrq","Rssnr","Cqi","Ta","LevelSignal","mCi","mPci","mTac","mArfcn","mBandwith","mMcc","mMnc","IspSignal"};
 
         try {
             for (int i=0;i<=nameList.length;i++ ){
