@@ -488,7 +488,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
 //                    startActivity(intent);
                 if (dataFullCell!=null){
                     Log.d("dataLength", String.valueOf(dataFullCell.size()));
-                    if (dataFullCell.size()==14){
+                    if (dataFullCell.size()==15){
                         Log.d("dataLength", "Data mau dikirim");
                         sendCellID(dataFullCell);
 
