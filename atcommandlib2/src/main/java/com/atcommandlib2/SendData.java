@@ -102,6 +102,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
         publicContext=context;
         //setupGoogleGPSON
 
+        setUpGClient(publicContext);
     }
 
     public void run(){
@@ -384,14 +385,12 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
 //            Toast.makeText(this,"permission denied",Toast.LENGTH_LONG).show();
 //        }
 //    }
+        Log.d("urutan", "onrequest");
         int permissionLocation = ContextCompat.checkSelfPermission(publicContext,
                 Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
-            setUpGClient(publicContext);
             getMyLocation();
         }
-
-
     }
 
     private synchronized void setUpGClient(Context context) {
@@ -401,6 +400,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+        Log.d("urutan", "dataGclient");
         googleApiClient.connect();
     }
     @Override
@@ -497,6 +497,7 @@ public class SendData extends FragmentActivity implements command, GoogleApiClie
     }
     //auto gps
     private void checkPermissions() {
+        Log.d("urutan", "cek permissiom");
         int permissionLocation = ContextCompat.checkSelfPermission(publicContext,
                 android.Manifest.permission.ACCESS_FINE_LOCATION);
         List<String> listPermissionsNeeded = new ArrayList<>();
